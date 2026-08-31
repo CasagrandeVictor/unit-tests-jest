@@ -1,5 +1,11 @@
+const VIDA_MAXIMA_PADRAO = 100;
+const XP_BASE_POR_NIVEL = 100;
+const INCREMENTO_VIDA_MAXIMA_POR_NIVEL = 20;
+const DANO_PADRAO_SEM_ARMA = 5;
+const PERCENTUAL_MAXIMO = 100;
+
 class PersonagemRPG {
-  constructor(nome, vidaMaxima = 100) {
+  constructor(nome, vidaMaxima = VIDA_MAXIMA_PADRAO) {
     if (!nome || nome.trim() === "") {
       throw new Error("O nome do personagem é obrigatório");
     }
@@ -43,7 +49,7 @@ class PersonagemRPG {
 
   /** Calcula a experiência necessária para o próximo nível */
   xpParaProximoNivel() {
-    return this.nivel * 100;
+    return this.nivel * XP_BASE_POR_NIVEL;
   }
 
   /** Adiciona experiência, subindo de nível automaticamente quando necessário */
@@ -62,7 +68,7 @@ class PersonagemRPG {
   /** Sobe um nível manualmente, aumentando a vida máxima e restaurando a vida */
   subirNivel() {
     this.nivel += 1;
-    this.vidaMaxima += 20;
+    this.vidaMaxima += INCREMENTO_VIDA_MAXIMA_POR_NIVEL;
     this.vida = this.vidaMaxima;
     return this.nivel;
   }
@@ -128,13 +134,13 @@ class PersonagemRPG {
 
   /** Ataca outro personagem, causando dano com base na arma equipada */
   atacar(alvo) {
-    const dano = this.armaEquipada ? this.armaEquipada.dano : 5;
+    const dano = this.armaEquipada ? this.armaEquipada.dano : DANO_PADRAO_SEM_ARMA;
     return alvo.receberDano(dano);
   }
 
   /** Calcula o percentual de vida atual em relação à vida máxima */
   percentualVida() {
-    return Math.round((this.vida / this.vidaMaxima) * 100);
+    return Math.round((this.vida / this.vidaMaxima) * PERCENTUAL_MAXIMO);
   }
 
   /** Restaura a vida do personagem para o valor máximo */
